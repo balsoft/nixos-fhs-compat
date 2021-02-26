@@ -13,7 +13,7 @@
       type = lib.types.bool;
       default = false;
       description = ''
-        Whether to link libraries from LD_LIBRARY_PATH_AFTER to /lib, /lib64, /usr/lib
+        Whether to link libraries from /etc/lsb to /lib, /lib64, /usr/lib
         Useful in conjunction with environment.lsb
       '';
     };
@@ -23,15 +23,10 @@
       "L+ /bin     - - - - /run/current-system/sw/bin"
       "L+ /sbin    - - - - /run/current-system/sw/bin"
       "L+ /usr/bin - - - - /run/current-system/sw/bin"
-    ] ++ lib.optionals config.environment.fhs.linkLibs (let
-      libdir = pkgs.buildEnv {
-        name = "fhs-libdir";
-        paths = builtins.filter builtins.isString (builtins.split ":" config.environment.sessionVariables.LD_LIBRARY_PATH_AFTER);
-      };
-    in [
-      "L+ /lib     - - - - ${libdir}"
-      "L+ /lib64   - - - - ${libdir}"
-      "L+ /usr/lib - - - - ${libdir}"
+    ] ++ lib.optionals config.environment.fhs.linkLibs ([
+      "L+ /lib     - - - - /etc/lsb/lib"
+      "L+ /lib64   - - - - /etc/lsb/lib"
+      "L+ /usr/lib - - - - /etc/lsb/lib"
     ]);
     environment.sessionVariables.LD_LIBRARY_PATH = lib.mkIf config.environment.fhs.linkLibs "/lib";
   };

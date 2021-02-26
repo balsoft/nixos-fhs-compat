@@ -155,6 +155,14 @@
           ":${base-libs32}/lib"
         }";
 
+      environment.etc."lsb".source = pkgs.symlinkJoin {
+        name = "lsb-combined";
+        paths = [
+          base-libs64
+          base-libs32
+        ];
+      };
+
       environment.systemPackages = with pkgs;
         [
           # Core
@@ -190,7 +198,9 @@
           # Imaging
           foomatic_filters
           ghostscript
-        ];
+        ] ++ libsFromPkgs pkgs
+        ++ lib.optionals (config.environment.lsb.support32Bit)
+        (libsFromPkgs pkgs.pkgsi686Linux);
 
       # environment.ld-linux = true;
     }
