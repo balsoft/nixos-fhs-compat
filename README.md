@@ -1,6 +1,6 @@
 # A library that implements support for LSB and FHS in NixOS.
 
-## :warning: This library is only intended to be used in containers! Do not use on NixOS hosts!
+## :warning: This library is only intended to be used in containers. Usage on a NixOS host system may result in irreproducibility and prevent you from contributing to nixpkgs. Use at your own risk.
 
 ## TLDR
 
