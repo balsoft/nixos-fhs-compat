@@ -28,7 +28,7 @@
       "L+ /lib64   - - - - /etc/lsb/lib"
       "L+ /usr/lib - - - - /etc/lsb/lib"
     ]);
-    environment.sessionVariables.LD_LIBRARY_PATH = lib.mkIf config.environment.fhs.linkLibs "/lib";
+    environment.sessionVariables.LD_LIBRARY_PATH = lib.mkIf config.environment.fhs.linkLibs (lib.mkForce "/lib");
     system.activationScripts.binsh = lib.mkIf config.environment.fhs.linkExes (lib.mkForce "");
     system.activationScripts.usrbinenv = lib.mkIf config.environment.fhs.linkExes (lib.mkForce "");
   };
